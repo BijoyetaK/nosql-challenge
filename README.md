@@ -1,5 +1,5 @@
 # nosql-challenge
-Module 12 Assignment
+Module 12:
 This assignment involved analysing UK food establishments for food hygiene Ratings and provide the data to the food magazine, Eat,Safe,Love inorder to help their journalists and food critics decide where to focus future articles.The UK Food Standards Agency evaluates various establishments across the United Kingdom, and gives them a food hygiene rating. 
 
 ### Part 1: Database set up: uk_foods and establishment collection via jupyter notebook
