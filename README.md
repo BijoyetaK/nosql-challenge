@@ -1,89 +1,74 @@
 # nosql-challenge
 Module 12 Assignment
-### This assignment involved creation of Flask API after doing some basic analysis on climate data of Hawaii using Python an SQLALchemy. 
+This assignment involved analysing UK food establishments for food hygiene Ratings and provide the data to the food magazine, Eat,Safe,Love inorder to help their journalists and food critics decide where to focus future articles.The UK Food Standards Agency evaluates various establishments across the United Kingdom, and gives them a food hygiene rating. 
 
-### Analyze and Explore Climate Data
-   - Using SQLALCHEMY ORM queries, Pandas and Matplotlib to do climate analysis.
-   - Database used is hawaii.sqlite
-   - Tables inspected creating engine connection to hawaii.sqlite - measurement and station.
-   - Measurement table provided: ID, Station name, date, precipitation and temperature data
-   - Station table provided: ID, Station name, latitude, longitude, elevation
-   - Using automap_base function to declare a Base class.
-   - Use that Base class to reflect the tables using autoload_with=engine.
-   - using keys() function to view all the classes that automapping process found.
-   - Saving the references to each table into Measurement and Station class respectively. 
-   - Creating session (link) from Python to sqlite DB using Session(engine)
+### Part 1: Database set up: uk_foods and establishment collection via jupyter notebook
+   - NoSQL_setup_starter.ipynb is used. 
+   - establishments.json is imported into uk_food database using the terminal. collection name: establishments
+   - libraries imported: PyMongo and Pretty Print(pprint)
+   - Create an instance of the Mongo Client using localhost and specified port.
+   - Confirm that you created the database and loaded the data properly, by listing the database, collections.
+   - Find and display one document in the establishments collection using find_one and display with pprint.
+   - Assign the establishments collection to a variable to prepare the collection for use.
+   - Close mongoDB connection.
+
+### Part 2: Updating the database
+   - NoSQL_setup_starter.ipynb is used. 
+   - An exciting new halal restaurant, Penang Flavors just opened in Greenwich, but hasn't been rated yet. The magazine has asked you to   include it in your analysis. Add the following information to the database:
+   - ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/95ced564-1ee8-41fe-9f5d-aafdcf26831f)
+
+   - Query the database to find BusinessTypeID for "Restaurant/Cafe/Canteen" and return only the BusinessTypeID and BusinessType fields.
+   - Update the new restaurant with the BusinessTypeID that was found.
+   - The magazine is not interested in any establishments in Dover, so check how many documents contain the Dover Local  Authority(994).Remove any establishments within the Dover Local Authority from the database, and check the number of documents to ensure they were deleted.
+   - Use update_many to convert latitude and longitude to decimal numbers.
+   - Use update_many to convert RatingValue to integer numbers. However, This field also includes non-numeric values such as 'Pass', where 'Pass' means that the establishment passed their inspection but isn't given a number rating. These non-numeric values need to be updated to nulls during the database setup before converting ratings to integers.
+   ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/9fb38d9a-9bb5-4425-8c81-76049677f30e)
+
+   - Assign the establishments collection to a variable to prepare the collection for use.
+   - Close mongoDB connection.
+   
     
+### Exploratory Analysis: NoSQL_analysis_starter.ipynb is used for analysis
 
-### Exploratory Precipitation Analysis
+   - Dataset exploration: 
+                        - RatingValue refers to the overall rating decided by the Food Authority and ranges from 1-5. The higher the value, the better the rating.
+                        - The scores for Hygiene, Structural, and ConfidenceInManagement work in reverse. This means, the higher the value, the worse the establishment is in these areas.
+   - Use count_documents to display the number of documents contained in the result.- 38786
+   - Display the first document in the results using pprint.
+   - Convert the result to a Pandas DataFrame, print the number of rows in the DataFrame, and display the first 10 rows. 
+   - Which establishments have a hygiene score equal to 20?
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/4f6f03f0-c6ce-437f-8bb5-27f23585e63f)
 
-   - Find the most recent date from the measurement table
-   - Calculate a time difference of 12 months ago from most recent date  
-   - Using the calculated date query to retrieve the last 12 months of precipitation data and plot the results.
-   - Saving the query results in to a Pandas Dataframe. 
-   - Using matplotlib to plot the data
-    ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/81647ecd-0c06-4bbe-8a84-dea61a02ef01)
-         
-   - Using Daylocator function in mdates module of matplotlib created the date plots
-   - reference: #https://dataplotplus.com/change-frequency-date-x-axis-matplotlib-python/
-   ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/37cb4778-9555-41d4-9d98-725c75d19033)         
-   - precipitation summary using describe()
+   - Which establishments in London have a RatingValue greater than or equal to 4?
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/024b9d26-56af-4fb9-a6f4-6ade75dfc9e1)
+
+   - What are the top 5 establishments with a RatingValue of 5, sorted by lowest hygiene score, nearest to the new restaurant added, "Penang Flavours"?
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/6fd02bca-94e6-4d26-9f5b-0c12b55c5c4e)
+
+   - How many establishments in each Local Authority area have a hygiene score of 0? Sort the results from highest to lowest, and print out the top ten local authority areas.
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/4ee1c5a3-8ef8-457b-8397-222cee1e0fd4)
+
+   - Extracting data for London establishments and saving the data into a csv for map plots: "Resources/london_ratings.csv"
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/71ed8c26-e02d-4e24-806e-d18b07ff8cb6)
+
+   - Extracting data for all establishments(only those who have ratings) and saving the data into a csv for map plots: "Resources/all_establishments_rating.csv"
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/711ae729-ae75-4e93-b36f-f439d7463e5f)
+      
    
-      ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/4f26b509-05a6-4fa7-a37e-fcb7b08baf04)
-   
 
-### Exploratory Station Analysis
+### Map plot for London establishments.
 
-   - Query the stations table to calculate the total number of stations using ORM method
-   - Print the total number of stations
-   - Saving the query results to a Pandas DataFrame
-   
-       ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/fe2214da-6cb8-4269-9b95-6ec1ff5b8019)
-         
-   - Query the measurement table to find the most active stations (i.e. which stations have the most rows?)
-   - List the stations and their counts in descending order.
-   - Print the most active station
-   - Using the most active station id from the previous query, calculate the lowest, highest, and average temperature.
-   - Create a Temperature summary dataframe
-   
-        ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/64cb2560-0668-4e01-940f-0af06c53520c)
-         
-   - Using the most active station id create a dataframe having the previous 12 months of temperature data
-   - Plot the data temperature data in a histogram
-   
-        ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/d3df90dc-9902-44e8-aada-369ca39ad492)
-         
-   - Close session
-
-  
-   
-### Designing Climate App(Flask API) based on the above precipitation, station and temperature analysis results
-
-   - Two python applications:
-        - appdata.py -> Python application that has all the individual functions inside the Weatherdata class.
-                        Each function queries the DB to fetch required data, save them into pandas dataframe and converting into json.
-                        Also contains the DataValidation class to do user input start/end dates. 
-        - app.py -> Flask API that references the Weatherdata and DataValidation class and  from appdata.py to build create required routes. 
-                    The routes are displayed to the user in a html table format using render_template function from flask module.
-   - Available routes created for: 
-        - Welcome page/homepage
-        - Precipitation in the last 12 months
-        - List of all Hawaii stations
-        - Temperature observations of the most active station
-        - Min, Avg and Max temperature for a specified start date onwards
-        - Min, Avg and Max temperature from specified start date to end date inclusive,
-          user input start date and end date must be in format YYYYMMDD and end date must be greater than start date.
-        ![image](https://github.com/BijoyetaK/sqlalchemy-challenge/assets/126313924/94c16cc4-dbdd-470c-8a40-69a45d02c2ec)
+   - London_Ratings_Map_plots.ipynb
+   - Reads the london_ratings.csv into a dataframe, ranks the ratings as a column and plots into a map. 
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/7a7b6b5e-aa15-4f85-8c25-e5ef6df1f31b)
+      
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/24dd4895-2614-4b04-a7f5-7db49854e9aa)
 
 
+### Map plot for uk establishments.
 
-#### references: 
-     
-   - https://www.quackit.com/html/html_table_generator.cfm
-                 
-   - https://bobbyhadz.com/blog/python-add-months-to-date#:~:text=Use%20the%20relativedelta%20class%20from,with%20different%20numbers%20of%20days.
-     
-   - https://dataplotplus.com/change-frequency-date-x-axis-matplotlib-python/
-   
-   - https://pythonbasics.org/flask-rest-api/
+   - All_Establishments_Ratings_Map_plots.ipynb
+   - Reads the all_establishments_rating.csv into a dataframe, ranks the ratings as a column and plots into a map.
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/bea501f5-160a-4e16-a234-9acdfbb73570)
+      ![image](https://github.com/BijoyetaK/nosql-challenge/assets/126313924/f6d4c3e5-896d-4e1e-9ed4-4c1047712288)
 
